@@ -2,7 +2,7 @@
 #include "grid.hpp"
 
 
-void Grid::WriteToTable(Form form){
+void Grid::WriteToGrid(Form form){
 	int i, j;
 	for(i = 0; i < form.width ;i++){
 		for(j = 0; j < form.width ; j++){
@@ -47,7 +47,7 @@ void Grid::ManipulateCurrent(uint8_t key, Shape shape, uint8_t){
 			if(CheckPosition(temp))
 				current.row++;
 			else {
-				WriteToTable(current);
+				WriteToGrid(current);
 				DeleteRows();
                 shape.RandomForm(rand()%7);
 			}

@@ -11,7 +11,7 @@ private:
     void PrintGrid();
 
 public:
-    void WriteToTable(Form form);
+    void WriteToGrid(Form form);
     uint8_t DeleteRows(); // return count of rows to calculate the score
     void ManipulateCurrent(uint8_t key, Shape shape, uint8_t currentForm);
     int CheckPosition(Form shape);

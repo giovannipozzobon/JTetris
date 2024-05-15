@@ -11,6 +11,10 @@
 char buffer [sizeof(int)*40+1];
 char nameFileGfx[] = {12, 'g', 'r', 'a', 'p', 'h', 'i', 'c', 's', '.', 'g', 'f', 'x'};
 
+
+
+
+
 int main(){
     Util util;
     File file;
@@ -47,7 +51,7 @@ int main(){
         //sprintf(buffer," %d %d %d %d",mouse.X, mouse.Y, mouse.leftBtnDown, mouse.leftBtnDown);
         //sprintf(buffer," Key: %i  Status: %i", key, kstatus);
 
-        key = console.get_char_modifier();
+        //key = console.get_char_modifier();
         //if (key.chr != 0) gui.ActionKey(key);
         
         //if (key.chr != 0) gui.ActionKey(key);
@@ -59,6 +63,8 @@ int main(){
         console.gotoxy(10,20);
         puts(buffer);
     */
+
+        checkKeyAndMoveForm();
         util.nop_delay(5000);
     
     }
