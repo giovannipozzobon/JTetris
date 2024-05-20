@@ -4,6 +4,7 @@
 #include <cstdint>
 #include <stdlib.h>
 #include "costant.hpp"
+#include "console.hpp"
 
 typedef struct {
     char **array;
@@ -14,6 +15,8 @@ class Shape {
 
 private:
 
+Console console;
+char strText[40];
 
 uint8_t currentForm;
 
@@ -40,19 +43,20 @@ Form tempArray[7]= {
 
 public:
 
-void CopyArrayToTemp();
+void CopyFormToForm(uint8_t tmp);
 
-void CopyTempToArray();
 
 void RandomForm(uint8_t rnd);
 
 void RotateFormArray();
 
-void RotateFormTemp();
+void RotateForm(uint8_t tmp);
 
 Form GetCurrentForm();
 
 Form GetCurrentTempForm();
+
+void printShape();
 
 
 };

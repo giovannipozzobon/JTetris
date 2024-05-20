@@ -1,40 +1,47 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <string.h>
+#include <time.h>
 #include "util.hpp"
 #include "file.hpp"
 #include "console.hpp"
 #include "screen.hpp"
 #include "shape.hpp"
+#include "grid.hpp"
 
 
 char buffer [sizeof(int)*40+1];
 char nameFileGfx[] = {12, 'g', 'r', 'a', 'p', 'h', 'i', 'c', 's', '.', 'g', 'f', 'x'};
-
+char strText[10];
 
 
 
 
 int main(){
+    char key;
+    unsigned char rnd;
     Util util;
     File file;
     Console console;
-    key_with_Modifier key;
     Screen screen;
     Shape shape;
+    Grid grid;
 
 	// Load resource file
 	file.LoadGrafix(nameFileGfx);
 	 
-	screen.Title();
+	//screen.Title();
 
 	// Use current time as
 	// seed for random generator
 	srand(1);
 
-    shape.RandomForm(rand()%7); //updates new shape
+    //rnd = (rand() % 7);
+    rnd = 3;
+    shape.RandomForm(rnd); //updates new shape
 
-
+    sprintf(strText," rnd %i",rnd); puts(strText);
+    shape.printShape();
 
 	// Initialise the environment
 	
@@ -43,7 +50,7 @@ int main(){
     {
 
 
-        //key = console.inkey();
+        key = console.inkey();
         //if (key == keyboard.KEY_CURS_UP) key='U';
         //if (key != 0) gui.ActionKey(key);
         //key='a';
@@ -63,8 +70,10 @@ int main(){
         console.gotoxy(10,20);
         puts(buffer);
     */
-
-        checkKeyAndMoveForm();
+        if (key == 0) key='s';
+        grid.ManipulateCurrent(key, shape);
+        util.nop_delay(5000);
+        util.nop_delay(5000);
         util.nop_delay(5000);
     
     }
