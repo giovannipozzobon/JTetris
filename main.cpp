@@ -1,7 +1,7 @@
 #include <stdbool.h>
 #include <stdint.h>
+#include <stdlib.h>
 #include <string.h>
-#include <time.h>
 #include "util.hpp"
 #include "file.hpp"
 #include "console.hpp"
@@ -9,6 +9,7 @@
 #include "shape.hpp"
 #include "grid.hpp"
 
+#define DEBUG
 
 char buffer [sizeof(int)*40+1];
 char nameFileGfx[] = {12, 'g', 'r', 'a', 'p', 'h', 'i', 'c', 's', '.', 'g', 'f', 'x'};
@@ -19,7 +20,7 @@ char strText[10];
 
 int main(){
     char key;
-    unsigned char rnd;
+    int rnd;
     Util util;
     File file;
     Console console;
@@ -32,6 +33,8 @@ int main(){
 	 
 	//screen.Title();
 
+	// Initialise the environment
+
 	// Use current time as
 	// seed for random generator
 	srand(1);
@@ -40,10 +43,19 @@ int main(){
     rnd = 3;
     shape.RandomForm(rnd); //updates new shape
 
+    #ifdef DEBUG
     sprintf(strText," rnd %i",rnd); puts(strText);
     shape.printShape();
+    shape.RotateForm(0);
+    shape.printShape();
+    shape.RotateForm(0);
+    shape.printShape();
+    shape.RotateForm(0);
+    shape.printShape();    
+    shape.RotateForm(0);
+    shape.printShape();  
 
-	// Initialise the environment
+    #endif
 	
     
     while (1)
@@ -71,7 +83,7 @@ int main(){
         puts(buffer);
     */
         if (key == 0) key='s';
-        grid.ManipulateCurrent(key, shape);
+        //grid.ManipulateCurrent(key, shape);
         util.nop_delay(5000);
         util.nop_delay(5000);
         util.nop_delay(5000);

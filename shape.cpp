@@ -35,6 +35,7 @@ void Shape::RotateForm(uint8_t tmp){ //rotates clockwise tempForm or ArrayForm
 		tmp2 = formArray;
 
 	}
+	CopyFormToForm(1-tmp);
 	width = tmp1[currentForm].width;
 	for(i = 0; i < width ; i++){
 		for(j = 0, k = width-1; j < width ; j++, k--){
@@ -43,16 +44,18 @@ void Shape::RotateForm(uint8_t tmp){ //rotates clockwise tempForm or ArrayForm
 	}
 }
 
-
+// If tmp = 0 then copy from Temp to Array 
+// If tmp = 1 then copy from  Array to Temp 
 void Shape::CopyFormToForm(uint8_t tmp){
     int i, j;
 	Form *tmp1, *tmp2;
 
+	// Copy from Temp to Array
 	if (tmp == 0){
 		tmp1 = formArray;
 		tmp2 = tempArray;
 	}
-	else {
+	else { // Copy from Array to Temp
 		tmp1 = tempArray;
 		tmp2 = formArray;
 

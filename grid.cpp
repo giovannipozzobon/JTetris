@@ -21,11 +21,37 @@ void Grid::WriteToGrid(Form form){
 			if(form.array[i][j]) {
 				//sprintf(strText," wg %i", form.array[i][j]); puts(strText); 
 				//util.nop_delay(5000);
-				grid[3+(form.row+i)+(form.col+j)*ROWS] = form.array[i][j];
+				grid[3+(form.row+i)*COLS+(form.col+j)] = form.array[i][j];
 			}
 		}
 	}
 	//sprintf(strText," wg-2"); puts(strText); 
+}
+
+int Grid::CheckPosition(Form form){ 
+//Check the position of a form
+char **array = form.array;
+	int i, j;
+	for(i = 0; i < form.width;i++) {
+			//sprintf(strText," p-1"); puts(strText);
+			//strText[0]=3;
+			//DrawBoardText(strText);
+		for(j = 0; j < form.width ;j++){
+			//sprintf(strText," p-2");
+			//DrawBoardText(strText);
+			if((form.col+j < 0 || form.col+j >= COLS || form.row+i >= ROWS)){ //Out of borders
+				sprintf(strText," p-3"); puts(strText);
+				//strText[0]=3;
+				//DrawBoardText(strText);
+				if(array[i][j]) 
+					return 0;
+				
+			}
+			else if(grid[3+(form.row+i)*COLS+(form.col+j)] && array[i][j])
+				return 0;
+		}
+	}
+	return 1;
 }
 
 uint8_t Grid::DeleteRows(){
@@ -34,16 +60,16 @@ uint8_t Grid::DeleteRows(){
 	for(i=0;i<ROWS;i++){
 		sum = 0;
 		for(j=0;j< COLS;j++) {
-			sum+=grid[3+j*ROWS+i];
+			sum+=grid[3+i*COLS+j];
 		}
 		if(sum==COLS){
 			score++;
 			int l, k;
 			for(k = i;k >=1;k--)
 				for(l=0;l<COLS;l++)
-					grid[3+k*l]=grid[3+((k-1)*l)];
+					grid[3+k*COLS+l]=grid[3+(k-1)*ROWS+l];
 			for(l=0;l<COLS;l++)
-				grid[3+k*l]=0;
+				grid[3+k*COLS+l]=0;
 		}
 	}
 	// return count of rows to calculate the score
@@ -112,7 +138,7 @@ void Grid::DrawGrid(){
 	for(int i = 0; i < ROWS ;i++){
 		for(int j = 0; j < COLS ; j++){
 			//sprintf(strText,"%c ", (const char *)grid[3+j*ROWS+i]); puts(strText); 
-			console.cputc(grid[3+j*ROWS+i]+48);
+			console.cputc(grid[3+i*COLS+j]+48);
 		}
 		puts(" ");
 	}
@@ -120,31 +146,6 @@ void Grid::DrawGrid(){
 
 }
 
-int Grid::CheckPosition(Form form){ 
-//Check the position of a form
-char **array = form.array;
-	int i, j;
-	for(i = 0; i < form.width;i++) {
-			//sprintf(strText," p-1"); puts(strText);
-			//strText[0]=3;
-			//DrawBoardText(strText);
-		for(j = 0; j < form.width ;j++){
-			//sprintf(strText," p-2");
-			//DrawBoardText(strText);
-			if((form.col+j < 0 || form.col+j >= COLS || form.row+i >= ROWS)){ //Out of borders
-				sprintf(strText," p-3"); puts(strText);
-				//strText[0]=3;
-				//DrawBoardText(strText);
-				if(array[i][j]) 
-					return 0;
-				
-			}
-			else if(grid[3+(form.row+i)*(form.col+j)] && array[i][j])
-				return 0;
-		}
-	}
-	return 1;
-}
 
 
 void Grid::DrawBoardText(char * str){
