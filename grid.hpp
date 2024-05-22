@@ -15,7 +15,7 @@ private:
     Util util;
     Console console;
 
-    char grid[COLS*ROWS+3] = {0};
+    unsigned char grid[COLS*ROWS+3] = {0};
     void DrawGrid();
     char strText [10];
 
@@ -24,7 +24,7 @@ public:
     void WriteToGrid(Shape *shape);
     uint8_t DeleteRows(); // return count of rows to calculate the score
     void ManipulateCurrent(uint8_t key, Shape *shape);
-    int CheckPosition(Form * shape);
+    uint8_t CheckPosition(Form * shape);
     void DrawBoardText(char * str);
     void EraseGrid();
 };

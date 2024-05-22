@@ -1,8 +1,8 @@
 #ifndef COSTANT_HPP
 #define COSTANT_HPP
 
-#define ROWS 14 // first row is for score and level  
-#define COLS 20
+#define ROWS 15 // first row is for score and level  
+#define COLS 15
 
 // Colors Values
 #define COLOR_WHITE         7

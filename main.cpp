@@ -20,7 +20,7 @@ char strText[10];
 
 int main(){
     char key;
-    int rnd;
+    uint8_t rnd;
     Util util;
     File file;
     Console console;
