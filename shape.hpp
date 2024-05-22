@@ -52,12 +52,23 @@ void RotateFormArray();
 
 void RotateForm(uint8_t tmp);
 
-Form GetCurrentForm();
+Form * GetCurrentForm();
 
-Form GetCurrentTempForm();
+Form * GetCurrentTempForm();
 
 void printShape();
 
+void incColTemp();
+void incRowTemp();
+
+void incColArray();
+void incRowArray();
+
+void decColTemp();
+void decRowTemp();
+
+void decColArray();
+void decRowArray();
 
 };
 

@@ -68,21 +68,33 @@ void Shape::CopyFormToForm(uint8_t tmp){
 
 }
 
-Form Shape::GetCurrentForm(){ return formArray[currentForm];}
+Form * Shape::GetCurrentForm(){ return &formArray[currentForm];}
 
-Form Shape::GetCurrentTempForm(){ return tempArray[currentForm];}
+Form * Shape::GetCurrentTempForm(){ return &tempArray[currentForm];}
 
 void Shape::printShape(){
-	sprintf(strText," shape CU %i W %i", currentForm, formArray[currentForm].width); puts(strText); 
-	sprintf(strText," shape C %i R %i", formArray[currentForm].col, formArray[currentForm].row); puts(strText); 
+	sprintf(strText,"shape CU %i W %i ", currentForm, formArray[currentForm].width); puts(strText); 
+	sprintf(strText,"shape C %i R %i ", formArray[currentForm].col, formArray[currentForm].row); puts(strText); 
 
 	for(int i = 0; i < formArray[currentForm].width ;i++){
 		for(int j = 0; j < formArray[currentForm].width ; j++){
 			//sprintf(strText,"%c ", (const char *)grid[3+j*ROWS+i]); puts(strText); 
+			//sprintf(strText,"%c", formArray[currentForm].array[i][j]+48); puts(strText);
 			console.cputc(formArray[currentForm].array[i][j]+48);
 		}
-		puts(" ");
+		//puts(" ");
 	}
 
 }
 	
+void Shape::incColTemp(){tempArray[currentForm].col++;}
+void Shape::incRowTemp(){tempArray[currentForm].row++;}
+
+void Shape::incColArray(){formArray[currentForm].col++;}
+void Shape::incRowArray(){formArray[currentForm].row++;}
+
+void Shape::decColTemp(){tempArray[currentForm].col--;}
+void Shape::decRowTemp(){tempArray[currentForm].row--;}
+
+void Shape::decColArray(){formArray[currentForm].col--;}
+void Shape::decRowArray(){formArray[currentForm].row--;}

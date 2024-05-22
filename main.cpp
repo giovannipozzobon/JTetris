@@ -9,7 +9,7 @@
 #include "shape.hpp"
 #include "grid.hpp"
 
-#define DEBUG
+//#define DEBUG
 
 char buffer [sizeof(int)*40+1];
 char nameFileGfx[] = {12, 'g', 'r', 'a', 'p', 'h', 'i', 'c', 's', '.', 'g', 'f', 'x'};
@@ -37,7 +37,7 @@ int main(){
 
 	// Use current time as
 	// seed for random generator
-	srand(1);
+	//srand(1);
 
     //rnd = (rand() % 7);
     rnd = 3;
@@ -46,15 +46,16 @@ int main(){
     #ifdef DEBUG
     sprintf(strText," rnd %i",rnd); puts(strText);
     shape.printShape();
+
+    shape.RotateForm(0);
+    shape.printShape();           
     shape.RotateForm(0);
     shape.printShape();
-    shape.RotateForm(0);
-    shape.printShape();
-    shape.RotateForm(0);
-    shape.printShape();    
     shape.RotateForm(0);
     shape.printShape();  
-
+    shape.RotateForm(0); 
+    shape.printShape();  
+    
     #endif
 	
     
@@ -82,11 +83,11 @@ int main(){
         console.gotoxy(10,20);
         puts(buffer);
     */
-        if (key == 0) key='s';
-        //grid.ManipulateCurrent(key, shape);
+        //if (key == 0) key='s';
+        grid.ManipulateCurrent(key, &shape);
         util.nop_delay(5000);
-        util.nop_delay(5000);
-        util.nop_delay(5000);
+        //util.nop_delay(5000);
+        //util.nop_delay(5000);
     
     }
      return 0;

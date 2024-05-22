@@ -21,11 +21,12 @@ private:
 
 public:
     Grid();
-    void WriteToGrid(Form form);
+    void WriteToGrid(Shape *shape);
     uint8_t DeleteRows(); // return count of rows to calculate the score
-    void ManipulateCurrent(uint8_t key, Shape shape);
-    int CheckPosition(Form shape);
+    void ManipulateCurrent(uint8_t key, Shape *shape);
+    int CheckPosition(Form * shape);
     void DrawBoardText(char * str);
+    void EraseGrid();
 };
 
 #endif //GRID_HPP
