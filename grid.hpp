@@ -27,6 +27,7 @@ public:
     uint8_t CheckPosition(Form * shape);
     void DrawBoardText(char * str);
     void EraseGrid();
+    void DeleteShapedFromGrid(Form *form);
 };
 
 #endif //GRID_HPP
