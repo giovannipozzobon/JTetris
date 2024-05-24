@@ -15,8 +15,12 @@ private:
     Util util;
     Console console;
 
-    unsigned char grid[COLS*ROWS+3] = {0};
-    void DrawGrid();
+    unsigned char grid[HEIGHT][WIDTH] = {0};
+    unsigned char tmpGrid[HEIGHT][WIDTH] = {0};
+    unsigned char map[3+WIDTH*HEIGHT] = {0};
+
+
+    void DrawGrid(Shape *shape);
     char strText [10];
 
 public:
@@ -26,6 +30,8 @@ public:
     void ManipulateCurrent(uint8_t key, Shape *shape);
     uint8_t CheckPosition(Form * shape);
     void DrawBoardText(char * str);
+    void EraseMap();
+    void EraseTmpGrid();
     void EraseGrid();
     void DeleteShapedFromGrid(Form *form);
 };

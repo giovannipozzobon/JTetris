@@ -2,21 +2,45 @@
 #include "grid.hpp"
 
 
-#define DEBUG
+//#define DEBUG
 
 Grid::Grid(){
-	grid[0] = 1;
-	grid[1] = COLS;
-	grid[2] = ROWS;
+
+	map[0] = 1;
+	map[1] = WIDTH;
+	map[2] = HEIGHT;
 
 }
 
-void Grid::EraseGrid(){
+
+void Grid::EraseMap(){
 	uint8_t i, j;
 
-	for(i = 0; i < ROWS ;i++){
-		for(j = 0; j < COLS; j++){
-			grid[3+i*COLS+j] = 0;
+	for(i = 0; i < HEIGHT ;i++){
+		for(j = 0; j < WIDTH; j++){
+			map[3+i*WIDTH+j] = 0;
+		}
+	}
+
+ }
+
+ void Grid::EraseGrid(){
+	uint8_t i, j;
+
+	for(i = 0; i < HEIGHT ;i++){
+		for(j = 0; j < WIDTH; j++){
+			grid[i][j] = 0;
+		}
+	}
+
+ }
+
+  void Grid::EraseTmpGrid(){
+	uint8_t i, j;
+
+	for(i = 0; i < HEIGHT ;i++){
+		for(j = 0; j < WIDTH; j++){
+			tmpGrid[i][j] = 0;
 		}
 	}
 
@@ -35,7 +59,7 @@ void Grid::WriteToGrid(Shape *shape){
 			if(form->array[i][j]==1) {
 				sprintf(strText," wg %i, %i, %i", form->row, form->col, form->width); puts(strText); 
 				//util.nop_delay(5000);
-				grid[3+(form->row+i)*COLS+(form->col+j)] = (uint8_t)(form->array[i][j] || grid[3+(form->row+i)*COLS+(form->col+j)]);
+				grid[form->row+i][form->col+j] = (form->array[i][j]==1 || grid[form->row+i][form->col+j]==1);
 				//console.gotoxy(20+i*2,5+j);sprintf(strText,"%i", (uint8_t)form->array[i][j]); puts(strText);
 				console.gotoxy(20+i*2,5+j);console.cputc((char)(form->array[i][j]));
 			}
@@ -52,7 +76,7 @@ void Grid::WriteToGrid(Shape *shape){
 	for(i = 0; i < form->width ;i++){
 		for(j = 0; j < form->width ; j++){
 			
-				grid[3+(form->row+i)*COLS+(form->col+j)] = 0;
+				grid[form->row+i][form->col+j] = 0;
 			}			
 		}
 	}
@@ -73,7 +97,7 @@ char **array = form->array;
 			//DrawBoardText(strText);
 			//sprintf(strText," wg %i, %i, %i", form->row, form->col, form->width); puts(strText); 
 
-			if((form->col+j < 0 || form->col+j >= COLS || form->row+i >= ROWS)){ //Out of borders
+			if((form->col+j < 0 || form->col+j >= WIDTH || form->row+i >= HEIGHT)){ //Out of borders
 				//console.gotoxy(20,0);sprintf(strText," CK %i %i ", form->col+j,form->row+i  ); puts(strText);
 				//strText[0]=3;
 				//DrawBoardText(strText);
@@ -81,8 +105,8 @@ char **array = form->array;
 					return 0;
 				
 			}
-			else if((grid[3+(form->row+i)*COLS+(form->col+j)]==1) && (array[i][j]==1)){
-				sprintf(strText," wg - if %i, %i, %i, %i, %i, %i", grid[3+(form->row+i)*COLS+(form->col+j)], array[i][j],i,j, form->row+i, form->col+j); puts(strText); 
+			else if((grid[form->row+i][form->col+j]==1) && (array[i][j]==1)){
+				sprintf(strText," wg - if %i, %i, %i, %i, %i, %i", grid[form->row+i][form->col+j], array[i][j],i,j, form->row+i, form->col+j); puts(strText); 
 				return 0;
 			}
 		}
@@ -93,19 +117,19 @@ char **array = form->array;
 uint8_t Grid::DeleteRows(){
 	uint8_t i, j, sum, score=0;
 
-	for(i=0;i<ROWS;i++){
+	for(i=0;i<HEIGHT;i++){
 		sum = 0;
-		for(j=0;j< COLS;j++) {
-			sum+=grid[3+i*COLS+j];
+		for(j=0;j< WIDTH;j++) {
+			sum+=grid[i][j];
 		}
-		if(sum==COLS){
+		if(sum==WIDTH){
 			score++;
 			int l, k;
 			for(k = i;k >=1;k--)
-				for(l=0;l<COLS;l++)
-					grid[3+k*COLS+l]=grid[3+(k-1)*ROWS+l];
-			for(l=0;l<COLS;l++)
-				grid[3+k*COLS+l]=0;
+				for(l=0;l<WIDTH;l++)
+					grid[k][l]=grid[k-1][l];
+			for(l=0;l<WIDTH;l++)
+				grid[k][l]=0;
 		}
 	}
 	// return count of rows to calculate the score
@@ -121,7 +145,7 @@ void Grid::ManipulateCurrent(uint8_t key, Shape *shape){
 	//sprintf(strText," MC-2"); puts(strText); 
 
 	// delete the current shape from grid
-	DeleteShapedFromGrid(current);
+	//DeleteShapedFromGrid(current);
 
 	switch(key){
 		case 's':
@@ -141,9 +165,9 @@ void Grid::ManipulateCurrent(uint8_t key, Shape *shape){
 				DeleteRows();
 				int rnd = 3;
     			shape->RandomForm(rnd); //updates new shape	
-				WriteToGrid(shape);
-				DrawGrid();
-				return;
+				//WriteToGrid(shape);
+				//DrawGrid();
+				//return;
 				//WriteToGrid(current);
 				//DeleteRows();
                 //shape.RandomForm(rand()%7);
@@ -197,25 +221,49 @@ void Grid::ManipulateCurrent(uint8_t key, Shape *shape){
 			break;
 	}
 	//shape.CopyFormToForm(1);
-	WriteToGrid(shape);
-	DrawGrid();
+	//WriteToGrid(shape);
+	DrawGrid(shape);
 }
 
-void Grid::DrawGrid(){
+void Grid::DrawGrid(Shape *shape){
+	int width, col, row;
+	char ** array;
+	uint8_t i, j;
+
+	width = shape->GetCurrentForm()->width;
+	col = shape->GetCurrentForm()->col;
+	row = shape->GetCurrentForm()->row;
+	array = shape->GetCurrentForm()->array;
+
 	
+	EraseMap();
+	EraseTmpGrid();
+
+	for(i = 0; i < width ;i++){
+		for(j = 0; j < width ; j++){
+			if(array[i][j]==1)
+				tmpGrid[row+i][col+j] = array[i][j];
+		}
+	}
+
+	for(i = 0; i < HEIGHT ;i++){
+		for(j = 0; j < WIDTH ; j++){
+				map[3+(row+i)*WIDTH+col+j] = grid[row+i][col+j] || tmpGrid[row+i][col+j];
+		}
+	}
 
 	#ifdef DEBUG
 	console.gotoxy(0,0);
-	for(uint8_t i = 0; i < ROWS ;i++){
-		for(uint8_t j = 0; j < COLS ; j++){
+	for(i = 0; i < HEIGHT ;i++){
+		for(j = 0; j < WIDTH ; j++){
 			//sprintf(strText,"%c ", (const char *)grid[3+j*ROWS+i]); puts(strText); 
-			console.cputc((uint8_t)grid[3+i*COLS+j]+48);
+			console.cputc(map[3+i*WIDTH+j]+48);
 		}
 		console.cputc('\r');
 	}
 	#else
-	graphic.SetCurrentTileMap((unsigned char *)&grid[0], 0,0);
-	graphic.DrawTileMap(0, 0, COLS*16, ROWS*16);
+	graphic.SetCurrentTileMap((unsigned char *)&map[0], 0,0);
+	graphic.DrawTileMap(0, 0, WIDTH*16, HEIGHT*16);
 
 	#endif
 
