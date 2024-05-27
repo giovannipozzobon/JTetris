@@ -6,9 +6,13 @@
 
 Grid::Grid(){
 
+	//map initial configuration
 	map[0] = 1;
 	map[1] = WIDTH;
 	map[2] = HEIGHT;
+
+	//erase the score
+	score.EraseScore();
 
 }
 
@@ -114,8 +118,8 @@ char **array = form->array;
 	return 1;
 }
 
-uint8_t Grid::DeleteRows(){
-	uint8_t i, j, sum, score=0;
+void Grid::DeleteRows(){
+	uint8_t i, j, sum, pt=0;
 
 	for(i=0;i<HEIGHT;i++){
 		sum = 0;
@@ -123,7 +127,7 @@ uint8_t Grid::DeleteRows(){
 			sum+=grid[i][j];
 		}
 		if(sum==WIDTH){
-			score++;
+			pt++;
 			int l, k;
 			for(k = i;k >=1;k--)
 				for(l=0;l<WIDTH;l++)
@@ -133,7 +137,7 @@ uint8_t Grid::DeleteRows(){
 		}
 	}
 	// return count of rows to calculate the score
-	return score;
+	score.AddScore(pt);
 }
 
 void Grid::ManipulateCurrent(uint8_t key, Shape *shape){
@@ -261,6 +265,7 @@ void Grid::DrawGrid(Shape *shape){
 		}
 		console.cputc('\r');
 	}
+	sprintf(strText," Score:  %i00", score.GerScore()); puts(strText); 
 	#else
 	graphic.SetCurrentTileMap((unsigned char *)&map[0], 0,0);
 	graphic.DrawTileMap(0, 0, WIDTH*16, HEIGHT*16);
