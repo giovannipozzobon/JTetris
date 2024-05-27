@@ -8,6 +8,8 @@
 #include "screen.hpp"
 #include "shape.hpp"
 #include "grid.hpp"
+#include "log.hpp"
+
 
 //#define DEBUG
 
@@ -27,10 +29,11 @@ int main(){
     Screen screen;
     Shape shape;
     Grid grid;
+    Log log;
 
 	// Load resource file
 	file.LoadGrafix(nameFileGfx);
-	 
+	log.LogDebug ("test 1");
 	//screen.Title();
 
 	// Initialise the environment
@@ -42,6 +45,7 @@ int main(){
     //rnd = (rand() % 7);
     rnd = 3;
     shape.RandomForm(rnd); //updates new shape
+    log.LogWarning ("test 2");
 
     #ifdef DEBUG
     sprintf(strText," rnd %i",rnd); puts(strText);

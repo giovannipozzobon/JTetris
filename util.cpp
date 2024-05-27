@@ -8,3 +8,12 @@ unsigned int Util::nop_delay(unsigned int delay) {
     }
     return timer;
 };
+
+void Util::WriteCharDebug(char ch){
+
+    while(*API_COMMAND_ADDR) {}  
+    API_PARAMETERS_ADDR[0] = ch;
+    *API_FUNCTION_ADDR  = API_FN_WRITE_CHR_DEBUG  ;
+    *API_COMMAND_ADDR   = API_GROUP_GENERAL ;   
+
+}

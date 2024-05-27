@@ -12,7 +12,7 @@
 rm -f *.o jtetris.neo jtetris.map {,.temp}
 
 #compile
-/Users/giovanni.pozzobon/Documents/GitHub/llvm-mos-sdk/bin/mos-neo6502-clang++ -Os  main.cpp file.cpp graphic.cpp console.cpp util.cpp screen.cpp shape.cpp grid.cpp score.cpp -o jtetris.neo
+/Users/giovanni.pozzobon/Documents/GitHub/llvm-mos-sdk/bin/mos-neo6502-clang++ -Os  main.cpp file.cpp graphic.cpp console.cpp util.cpp screen.cpp shape.cpp grid.cpp score.cpp log.cpp -o jtetris.neo
 
 #create exec mappeer and copy in storage 
 test -f jtetris.neo && python3 exec.zip jtetris.neo@800 run@800 -o./storage/jtetris.neo
